@@ -31,7 +31,7 @@ const Home = () => {
           <div className="mt-6 space-x-4">
             <Link
               to={"/products"}
-              className="bg-teal-500 px-6 py-3 rounded-full text-lg font-semibold hover:bg-teal-600 transition"
+              className="bg-teal-500 text-slate-950 font-mono px-6 py-3 rounded-full text-lg font-semibold hover:bg-teal-600 transition"
             >
               Explore Now
             </Link>

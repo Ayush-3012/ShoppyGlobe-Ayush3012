@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { enqueueSnackbar } from "notistack";
 import { useParams } from "react-router-dom";
@@ -61,7 +62,12 @@ const ProductDetails = () => {
 
   return (
     <>
-      <div className="mx-10 p-6 bg-gray-900 text-white rounded-lg shadow-lg">
+      <motion.div
+        className="mx-10 p-6 bg-gray-900 text-white rounded-lg shadow-lg"
+        initial={{ opacity: 0, y: -500 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, type: "spring", bounce: 0.6 }}
+      >
         <h1 className="text-3xl font-bold text-green-400">
           {productDetails.title}
         </h1>
@@ -161,7 +167,7 @@ const ProductDetails = () => {
             Buy Now
           </button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };

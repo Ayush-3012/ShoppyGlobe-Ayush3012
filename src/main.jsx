@@ -10,8 +10,8 @@ createRoot(document.getElementById("root")).render(
       maxSnack={2}
       autoHideDuration={2000}
       anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
+        vertical: "top",
+        horizontal: "right",
       }}
     >
       <App />
