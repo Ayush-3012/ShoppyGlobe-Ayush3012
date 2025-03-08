@@ -8,13 +8,13 @@ const Cart = () => {
 
   const getTotalPrice = () => {
     return cartItems
-      ?.reduce((total, item) => total + item.price * item.quantity, 0)
-      .toFixed(2);
+      ?.reduce((total, item) => total + item.product.price * item.quantity, 0)
+      ?.toFixed(2);
   };
 
   return (
     <motion.div
-      className="mx-2 h-screen bg-slate-800 rounded-lg p-6"
+      className="mx-2 bg-slate-800 rounded-lg p-6"
       initial={{ opacity: 0, y: -500 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, type: "spring", bounce: 0.6 }}
@@ -30,26 +30,25 @@ const Cart = () => {
         <>
           {cartItems?.map((item) => (
             <div
-              key={item.id}
+              key={item.product.id}
               className="flex border-green-400 border-b-2 items-center justify-between p-2 my-2"
             >
               <img
-                src={item.thumbnail}
-                alt={item.title}
+                src={item.product.thumbnail}
+                alt={item.product.title}
                 className="w-32 h-32 object-cover bg-slate-300 rounded shadow-green-400 shadow-[1px_1px_10px]"
               />
               <div className="flex-1 ml-4  p-2">
                 <h3 className="text-2xl text-green-400 font-mono font-semibold">
-                  {item.title}
+                  {item.product.title}
                 </h3>
                 <p className="text-teal-400 text-lg">
-                  ${item.price.toFixed(2)}
+                  ${item?.product.price?.toFixed(2)}
                 </p>
                 <div className="flex items-center mt-2 px-2">
                   <button
                     onClick={() => {
-                      onUpdateQuantity(item.id, item.quantity - 1);
-                      enqueueSnackbar("Quantity Updated", { variant: "info" });
+                      onUpdateQuantity(item.product.id, item.quantity - 1);
                     }}
                     disabled={item.quantity <= 1}
                     className="px-2 py-1 bg-gray-200 rounded-md disabled:opacity-50"
@@ -61,8 +60,7 @@ const Cart = () => {
                   </span>
                   <button
                     onClick={() => {
-                      onUpdateQuantity(item.id, item.quantity + 1);
-                      enqueueSnackbar("Quantity Updated", { variant: "info" });
+                      onUpdateQuantity(item.product.id, item.quantity + 1);
                     }}
                     className="px-2 py-1 bg-gray-200 rounded-md"
                   >
@@ -72,7 +70,7 @@ const Cart = () => {
               </div>
               <button
                 onClick={() => {
-                  onRemove(item.id);
+                  onRemove(item.product.id);
                   enqueueSnackbar("Item Removed From Cart", {
                     variant: "error",
                   });

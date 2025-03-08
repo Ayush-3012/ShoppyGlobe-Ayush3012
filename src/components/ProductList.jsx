@@ -1,8 +1,11 @@
-/* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
 import ProductItem from "./ProductItem";
+import { useLocation } from "react-router-dom";
 
-const ProductList = ({ products }) => {
+const ProductList = () => {
+  const location = useLocation();
+  const { products } = location.state || {};
+
   return (
     <motion.div
       className="py-8  bg-gray-950 mx-0.5 rounded-xl"

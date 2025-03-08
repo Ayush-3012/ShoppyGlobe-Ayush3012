@@ -7,6 +7,17 @@ import { useProducts } from "../Hooks/useProducts";
 import Loader from "../partials/Loader";
 
 const ProductDetails = () => {
+  const { updateCart } = useProducts();
+
+  const updateMyCart = async (product) => {
+    try {
+      updateCart(product);
+      enqueueSnackbar("Product added to cart", { variant: "success" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const { productId } = useParams();
   const { getProductDetails } = useProducts();
 
@@ -163,7 +174,10 @@ const ProductDetails = () => {
 
         {/* Buy Now Button */}
         <div className="mt-5 flex justify-center">
-          <button className="bg-green-500 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-semibold transition">
+          <button
+            className="bg-green-500 cursor-pointer hover:bg-green-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+            onClick={() => updateMyCart(productDetails)}
+          >
             Buy Now
           </button>
         </div>
