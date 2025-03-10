@@ -23,6 +23,7 @@ const ProductDetails = () => {
 
   const [productDetails, setProductDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentImage, setCurrentImage] = useState("");
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -63,7 +64,7 @@ const ProductDetails = () => {
         </p>
         <button
           onClick={() => window.history.back()}
-          className="mt-5 px-5 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition duration-300"
+          className="mt-5 px-5 py-2 cursor-pointer bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transition duration-300"
         >
           ← Go Back
         </button>
@@ -74,30 +75,48 @@ const ProductDetails = () => {
   return (
     <>
       <motion.div
-        className="mx-10 p-6 bg-gray-900 text-white rounded-lg shadow-lg"
+        className="mx-10 p-6  bg-gray-900 text-white rounded-lg"
         initial={{ opacity: 0, y: -500 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, type: "spring", bounce: 0.6 }}
       >
-        <h1 className="text-3xl font-bold text-green-400">
-          {productDetails.title}
-        </h1>
-        <p className="text-gray-400 text-lg">{productDetails.category}</p>
+        <div className="flex flex-wrap items-center justify-between px-10">
+          <div>
+            <h1 className="text-3xl py-2 font-bold text-green-400">
+              {productDetails.title}
+            </h1>
+            <p className="text-gray-200 py-1 mx-4 text-xl">
+              {productDetails.category}
+            </p>
+          </div>
+          {/* Buy Now Button */}
+          <motion.div className="flex justify-center"
+          >
+            <button
+              className="bg-green-500 text-2xl cursor-pointer hover:scale-x-110 hover:bg-green-600 text-white px-5 py-2 rounded-lg font-semibold transition"
+              onClick={() => updateMyCart(productDetails)}
+            >
+              Buy Now
+            </button>
+          </motion.div>
+        </div>
 
         {/* Product Image Section */}
-        <div className="flex flex-col md:flex-row gap-4 mt-5">
+        <div className="flex max-md:flex-col gap-10 mt-5 hover:shadow-[1px_1px_10px] rounded-xl p-4 hover:shadow-green-500">
           <img
-            src={productDetails.thumbnail}
+            src={currentImage || productDetails.thumbnail}
             alt={productDetails.title}
-            className="rounded-lg shadow-lg w-full md:w-1/3"
+            className="rounded-xl shadow-green-400 bg-slate-300 shadow-[1px_1px_10px] w-full md:w-1/3"
           />
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-5">
             {productDetails.images.map((img, index) => (
-              <img
+              <motion.img
                 key={index}
                 src={img}
                 alt={`Image ${index}`}
-                className="w-20 h-20 rounded-lg"
+                className="w-40 h-40 cursor-pointer rounded-lg hover:shadow-green-500  shadow-[1px_1px_10px]"
+                onClick={(e) => setCurrentImage(e.target.src)}
+                whileHover={{ translateY: "-10px" }}
               />
             ))}
           </div>
@@ -170,16 +189,6 @@ const ProductDetails = () => {
           ) : (
             <p className="text-gray-400 mt-2">No reviews yet.</p>
           )}
-        </div>
-
-        {/* Buy Now Button */}
-        <div className="mt-5 flex justify-center">
-          <button
-            className="bg-green-500 cursor-pointer hover:bg-green-600 text-white px-5 py-2 rounded-lg font-semibold transition"
-            onClick={() => updateMyCart(productDetails)}
-          >
-            Buy Now
-          </button>
         </div>
       </motion.div>
     </>
