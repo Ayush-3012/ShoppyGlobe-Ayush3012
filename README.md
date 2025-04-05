@@ -1,6 +1,6 @@
-# 📚 ShoppyGlobe - Ayush-3012
+# 🛒 ShoppyGlobe - Ayush-3012
 
-### 📖 Overview
+### 🏪 Overview
 A sleek and responsive full-stack E-commerce application built using **React**, **Redux Toolkit**, and **Tailwind CSS**. It allows users to browse products, view product details, add items to the cart, manage quantity, and proceed to checkout.
 
 
