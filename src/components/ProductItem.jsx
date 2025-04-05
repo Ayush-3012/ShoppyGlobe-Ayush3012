@@ -1,18 +1,35 @@
 /* eslint-disable react/prop-types */
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../redux/slices";
+import { enqueueSnackbar } from "notistack";
 
 const ProductItem = ({ product }) => {
+  const dispatch = useDispatch();
+
+  const updateMyCart = async (product) => {
+    try {
+      dispatch(addToCart(product));
+      enqueueSnackbar("Cart Updated", { variant: "success" });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="bg-slate-700 font-mono text-slate-200 rounded-tr-xl rounded-bl-xl p-4 group hover:shadow-[1px_1px_15px] shadow-green-400 hover:-translate-y-3 transition-all ease-in-out duration-300 hover:rounded-tl-xl hover:rounded-br-xl hover:rounded-tr-none hover:rounded-bl-none">
+    <Link
+      to={`/product/${product.id}`}
+      className="font-mono text-slate-200 rounded-tr-xl rounded-bl-xl p-4 group shadow-[1px_1px_15px] shadow-green-900 hover:shadow-gray-200 hover:-translate-y-3 transition-all ease-in-out duration-300 hover:rounded-tl-xl hover:rounded-br-xl hover:rounded-tr-none hover:rounded-bl-none"
+    >
       <div className="flex justify-center mb-4">
         <img
           src={product.thumbnail}
           alt={product.title}
-          className="rounded-lg w-52 h-52 bg-slate-400 group-hover:shadow-[1px_1px_15px] shadow-white group-hover:scale-110 transition-all ease-in-out duration-300"
+          className="w-32 h-32 rounded-sm group-hover:shadow-[1px_1px_15px]  group-hover:scale-120 transition-all ease-in-out duration-300"
         />
       </div>
 
-      <h3 className="text-2xl font-bold text-center">{product.title}</h3>
+      <h3 className="text-2xl mt-1 font-bold text-center">{product.title}</h3>
       <p className="text-sm text-gray-300 text-center italic">
         {product.category}
       </p>
@@ -30,17 +47,19 @@ const ProductItem = ({ product }) => {
           <span className="font-semibold text-white">Brand:</span>{" "}
           {product.brand}
         </p>
-
-        <div className="mt-4 flex  justify-center ">
-          <Link
-            to={`/product/${product.id}`}
-            className="bg-green-400 cursor-pointer hover:bg-green-500 text-slate-800 px-4 py-2 rounded-lg font-semibold transition"
-          >
-            More Details
-          </Link>
-        </div>
       </div>
-    </div>
+      <div className="flex mt-2 justify-center">
+        <button
+          className="bg-green-500 text-lg cursor-pointer hover:scale-x-110 hover:bg-green-600 text-white px-3 py-1 rounded-lg font-semibold transition"
+          onClick={(e) => {
+            e.preventDefault();
+            updateMyCart(product);
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    </Link>
   );
 };
 

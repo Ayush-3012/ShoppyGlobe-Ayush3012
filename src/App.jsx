@@ -1,24 +1,36 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Header from "./partials/Header";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import NotFound from "./partials/NotFound";
-import Footer from "./partials/Footer";
-import ProductList from "./components/ProductList";
+import { lazy, Suspense } from "react";
+import Loader from "./partials/Loader";
+const Home = lazy(() => import("./pages/Home"));
+const Header = lazy(() => import("./partials/Header"));
+const Footer = lazy(() => import("./partials/Footer"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout"));
+const NotFound = lazy(() => import("./partials/NotFound"));
+const ProductList = lazy(() => import("./components/ProductList"));
 
 const App = () => {
   return (
     <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductList />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/product/:productId" element={<ProductDetails />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <Footer />
+      <Suspense
+        fallback={
+          <div className="text-center text-white text-xl p-8">
+            <Loader />
+          </div>
+        }
+      >
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/product/:productId" element={<ProductDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </Suspense>
     </>
   );
 };
