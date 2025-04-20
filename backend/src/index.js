@@ -8,11 +8,13 @@ import userRouter from "./routes/user.routes.js";
 dotenv.config();
 
 const app = express();
+app.use(express.json());
+
 // app.get("/", (req, res) => res.send("Hello, Welcome!"));
 
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/users", userRouter);
 
 connectDb()
   .then(() => {

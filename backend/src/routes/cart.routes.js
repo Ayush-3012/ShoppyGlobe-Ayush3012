@@ -8,8 +8,8 @@ import { verifyToken } from "../middlewares/auth.middleware.js";
 
 const cartRouter = Router();
 
-cartRouter.route("/cart").post(verifyToken, addToCart);
-cartRouter.route("/cart/:id").put(verifyToken, updateCartItem);
-cartRouter.route("/cart/:id").delete(verifyToken, deleteCartItem);
+cartRouter.route("/").post(verifyToken, addToCart);
+cartRouter.route("/:productId").put(verifyToken, updateCartItem);
+cartRouter.route("/:productId").delete(verifyToken, deleteCartItem);
 
 export default cartRouter;
