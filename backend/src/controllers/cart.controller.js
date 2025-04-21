@@ -4,18 +4,18 @@ import Product from "../models/product.model.js";
 // Add product to cart.
 export const addToCart = async (req, res) => {
   try {
-    const { productId, quantity } = req.body;
+    const { productId, quantity } = req.body; // product Id and quantity to store in db.
 
-    const product = await Product.findById(productId);
-    if (!product) return res.status(404).json({ message: "Product not found" });
+    const product = await Product.findById(productId); // found the product details using its id.
+    if (!product) return res.status(404).json({ message: "Product not found" }); // returned a message if product is not found.
 
-    let cart = await Cart.findOne({ userId: req.user.id });
+    let cart = await Cart.findOne({ userId: req.user.id }); // found the cart of authenticated user if there is cart.
 
     if (!cart) {
       cart = new Cart({
         userId: req.user.id,
         items: [{ productId, quantity }],
-      });
+      }); // creating cart object and storing the details in db.
     }
 
     await cart.save();
@@ -29,19 +29,19 @@ export const addToCart = async (req, res) => {
 // Update Cart Quantity
 export const updateCartItem = async (req, res) => {
   try {
-    const { quantity } = req.body;
-    const { productId } = req.params;
+    const { quantity } = req.body; // new quantity to store in db.
+    const { productId } = req.params; // product id for which we want to update the quantity
 
-    const cart = await Cart.findOne({ userId: req.user.id });
+    const cart = await Cart.findOne({ userId: req.user.id }); // cart of authenticated user using userId
     if (!cart) return res.status(404).json({ message: "Cart not found" });
 
     const item = cart.items.find(
-      (item) => item.productId.toString() === productId
+      (item) => item.productId.toString() === productId // checking the foundCart item productId for which we want to update the quantity.
     );
     if (!item)
       return res.status(404).json({ message: "Product not found in cart" });
 
-    item.quantity = quantity;
+    item.quantity = quantity; // updating the quantity
     await cart.save();
 
     res.json({ message: "Cart item updated successfully" });
@@ -54,7 +54,7 @@ export const updateCartItem = async (req, res) => {
 // Delete cart item
 export const deleteCartItem = async (req, res) => {
   try {
-    const { productId } = req.params;
+    const { productId } = req.params; // product Id that we want to remove from cart
 
     const cart = await Cart.findOne({ userId: req.user.id });
     if (!cart) return res.status(404).json({ message: "Cart not found" });
@@ -65,7 +65,7 @@ export const deleteCartItem = async (req, res) => {
     if (itemIndex === -1)
       return res.status(404).json({ message: "Product not found in cart" });
 
-    cart.items.splice(itemIndex, 1);
+    cart.items.splice(itemIndex, 1); // removing the product from the cart
     await cart.save();
 
     res.json({ message: "Cart item deleted successfully" });

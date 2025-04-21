@@ -2,7 +2,7 @@ import Product from "../models/product.model.js";
 
 export const getProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find(); // finding all product details that are saved in db.
     res.status(200).json({
       success: true,
       products,
@@ -14,7 +14,7 @@ export const getProducts = async (req, res) => {
 
 export const getProductDetails = async (req, res) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id); // finding details of product whose id is passed in params
 
     if (!product) {
       return res
